@@ -1664,7 +1664,8 @@ void debugDotProd()
 	// 	for (size_t i = 0; i < size; ++i)
 	// 		b[i] = aes_indep->get64Bits();
 
-	funcDotProductMPC(a, b, c, size);
+    for(int i = 0; i < 1000 ;i++)
+        funcDotProductMPC(a, b, c, size);
 
 	if (PRIMARY)
 		funcReconstruct2PC(c, size, "c");
@@ -1847,7 +1848,8 @@ void debugSS()
 			for (size_t i = 0; i < size; ++i)
 				inputs[i] = (myType)aes_indep->get8Bits();
 
-		funcSelectShares3PC(inputs, selector, outputs, size);
+        for(int i = 0; i < 1000 ;i++)
+            funcSelectShares3PC(inputs, selector, outputs, size);
 
 		if (PRIMARY)
 		{
@@ -1894,6 +1896,39 @@ void debugMatMul()
 		funcReconstruct2PC(c, c.size(), "c");
 }
 
+void debugReLU()
+{
+    size_t size = 10;
+    vector<myType> inputs(size, 0);
+
+    if (partyNum == PARTY_A)
+        for (size_t i = 0; i < size; ++i)
+            inputs[i] = aes_indep->get8Bits() - aes_indep->get8Bits();
+
+    if (THREE_PC)
+    {
+        vector<myType> outputs(size, 0);
+        for (int i = 0; i< 1000;i++)
+            funcRELUMPC(inputs, outputs, size);
+        if (PRIMARY)
+        {
+            funcReconstruct2PC(inputs, size, "inputs");
+            funcReconstruct2PC(outputs, size, "outputs");
+        }
+    }
+
+    if (FOUR_PC)
+    {
+        vector<smallType> outputs(size, 0);
+        funcRELUPrime4PC(inputs, outputs, size);
+        if (PRIMARY)
+        {
+            funcReconstruct2PC(inputs, size, "inputs");
+            funcReconstructBit2PC(outputs, size, "outputs");
+        }
+    }
+}
+
 void debugReLUPrime()
 {
 	size_t size = 10;
@@ -1906,7 +1941,8 @@ void debugReLUPrime()
 	if (THREE_PC)
 	{
 		vector<myType> outputs(size, 0);
-		funcRELUPrime3PC(inputs, outputs, size);
+		for (int i = 0; i< 1000;i++)
+            funcRELUPrime3PC(inputs, outputs, size);
 		if (PRIMARY)
 		{
 			funcReconstruct2PC(inputs, size, "inputs");

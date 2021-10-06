@@ -102,9 +102,14 @@ int main(int argc, char** argv)
 		aes_parallel->precompute();
 
 
-/****************************** RUN NETWORK/BENCHMARKS ******************************/ 
-	start_m();
-
+/****************************** RUN NETWORK/BENCHMARKS ******************************/
+    if (!STANDALONE)
+        initializeMPC();
+    start_m();
+//    debugDotProd();
+//    debugSS();
+//    debugReLU();
+    debugReLUPrime();
 	// whichNetwork = "Mat-Mul";
 	// testMatMul(784, 128, 10, NUM_ITERATIONS);
 	// testMatMul(1, 500, 100, NUM_ITERATIONS);
@@ -135,8 +140,8 @@ int main(int argc, char** argv)
 	// testMaxPoolDerivative(24, 24, 2, 2, 16, NUM_ITERATIONS);
 	// testMaxPoolDerivative(8, 8, 4, 4, 50, NUM_ITERATIONS);
 
-	whichNetwork += " train";
-	train(network, config);
+//	whichNetwork += " train";
+//	train(network, config);
 
 	// whichNetwork += " test";
 	// test(network);

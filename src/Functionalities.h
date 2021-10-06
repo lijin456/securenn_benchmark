@@ -55,6 +55,7 @@ void debugSS();
 void debugMatMul();
 void debugReLUPrime();
 void debugMaxIndex();
+void debugReLU();
 
 //Test
 void testMatMul(size_t rows, size_t common_dim, size_t columns, size_t iter);
